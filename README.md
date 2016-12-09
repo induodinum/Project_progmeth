@@ -1,2 +1,2 @@
 # Project_progmeth
-Hello. Hi. Godd morning.
+Hello. Hi. Good morning.
