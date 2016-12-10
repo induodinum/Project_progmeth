@@ -11,12 +11,13 @@ public class RenderableHolder {
 	private static final RenderableHolder instance = new RenderableHolder();
 	private List<IRenderable> entities;
 	private Comparator<IRenderable> comparator;
-	public static Image[] playerChar;
-	public static Image bullet,bossChar;
+	public static Image[] playerChar,bullet;
+	public static Image bossChar;
 	
 	public RenderableHolder(){
 		entities = new ArrayList<IRenderable>();
 		playerChar = new Image[3];
+		bullet = new Image[3];
 		comparator = (IRenderable o1, IRenderable o2) -> {
 			if(o1.getZ() > o2.getZ()){
 				return 1;
@@ -43,7 +44,9 @@ public class RenderableHolder {
 		playerChar[1] = new Image(loader.getResourceAsStream("playerChar1.png"));
 		playerChar[2] = new Image(loader.getResourceAsStream("playerChar2.png"));
 		bossChar = new Image(loader.getResourceAsStream("bossChar.png"));
-		bullet = new Image(loader.getResourceAsStream("bullet.png"));
+		bullet[0] = new Image(loader.getResourceAsStream("bullet0.png"));
+		bullet[1] = new Image(loader.getResourceAsStream("bullet1.png"));
+		bullet[2] = new Image(loader.getResourceAsStream("bullet2.png"));
 		
 	}
 	public synchronized void remove(int index){

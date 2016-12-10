@@ -6,9 +6,10 @@ public class PlayerChar extends Entity{
 	public static boolean isDestroy;
 	public static int moveSpeed;
 	public static int life,colorType;
+	public static int width,height;
 	public PlayerChar(int x, int y) {
 		//Fill in here
-		super(x,y);
+		super(x, y, 50, 50);
 		life = 5;
 		isDestroy = false;
 		z = 2;
@@ -34,4 +35,14 @@ public class PlayerChar extends Entity{
 		return isDestroy;
 	}
 	
+	public void setDestroy(){
+		isDestroy=true;
+	}
+	
+	public void decreaseLife(){
+		life--;
+		if(life == 0){
+			setDestroy();
+		}
+	}
 }

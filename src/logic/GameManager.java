@@ -5,7 +5,6 @@ import java.util.Random;
 
 import model.IRenderable;
 import model.RenderableHolder;
-import graphic.GameScreen;
 import javafx.scene.input.KeyCode;
 import model.*;
 public class GameManager {
@@ -36,7 +35,6 @@ public class GameManager {
 		timer++;
 		move();
 		checkCollision();
-		checkDead();
 		removeDestroyEntity();
 		if(timer%20 == 0 && !player.isDestroy()){
 			Random rand = new Random();
@@ -56,8 +54,16 @@ public class GameManager {
 		}
 	}
 
-	private boolean isCollide(PlayerChar player, Bullet bullet, BossChar boss){
-		return true;
+	private boolean isCollide(PlayerChar player, Entity e){
+		return checkX(player,e) && checkY(player,e);
+	}
+	private boolean checkX(PlayerChar player, Entity e){
+		return (player.getX()+player.getWidth()>e.getX() && player.getX() < e.getX()) ||
+				(e.getX() + e.getWidth() > player.getX() && e.getX() < player.getX());
+	}
+	private boolean checkY(PlayerChar player, Entity e){
+		return (player.getY()+player.getHeight()>e.getY() && player.getY() < e.getY()) ||
+				(e.getY() + e.getHeight() > player.getY() && e.getY() < player.getY());
 	}
 	
 	private void checkCollision() {
@@ -65,34 +71,26 @@ public class GameManager {
 		//Body head = Snake.body.get(0);
 		//Fill in here
 		for(IRenderable i : RenderableHolder.getInstance().getEntities()){
-			if(i instanceof Star){
-				if(isCollide(arrow,(Star)i)){
-					((Star)i).setDestroy();
-					score++;
+			if(i instanceof Bullet){
+				if(isCollide(player,(Bullet)i)){
+					((Bullet)i).setDestroy();
+					player.decreaseLife();
 				}
 			}
 		}
 		
 	}
 	
-	private void checkDead(){
+	/*private void checkDead(){
 		if(arrow.getX()<0 || arrow.getX()>451 || arrow.getY()<0 || arrow.getY()>451){
 			arrow.isDestroy = true;
 		}
 		
-	}
+	}*/
 
 	private void move() {
 		// TODO Auto-generated method stub
-		if(arrow.directionX == 1){
-			arrow.setX(arrow.getX()+15);
-		}else if(arrow.directionY == 1){
-			arrow.setY(arrow.getY()+15);
-		}else if(arrow.directionX == -1){
-			arrow.setX(arrow.getX()-15);
-		}else if(arrow.directionY == -1){
-			arrow.setY(arrow.getY()-15);
-		}
+		//walk according to received key
 	}
 
 	public void receiveKey(KeyCode new_code) {
@@ -101,35 +99,12 @@ public class GameManager {
 			CodeUtility.keyPressed.add(new_code);
 			CodeUtility.keyTriggered.add(new_code);
 			
-			if(new_code == KeyCode.LEFT){
-				if(arrow.directionX == 1){
-					arrow.directionX = 0;
-					arrow.directionY = -1;
-				}else if(arrow.directionY == 1){
-					arrow.directionX = 1;
-					arrow.directionY = 0;
-				}else if(arrow.directionX == -1){
-					arrow.directionX = 0;
-					arrow.directionY = 1;
-				}else if(arrow.directionY == -1){
-					arrow.directionX = -1;
-					arrow.directionY = 0;
+			if(new_code == KeyCode.A){
+				//walk left
 				}
-			}else if(new_code == KeyCode.RIGHT){
-				if(arrow.directionX == 1){
-					arrow.directionX = 0;
-					arrow.directionY = 1;
-				}else if(arrow.directionY == 1){
-					arrow.directionX = -1;
-					arrow.directionY = 0;
-				}else if(arrow.directionX == -1){
-					arrow.directionX = 0;
-					arrow.directionY = -1;
-				}else if(arrow.directionY == -1){
-					arrow.directionX = 1;
-					arrow.directionY = 0;
+			else if(new_code == KeyCode.D){
+				//walk right
 				}
-			}
 		}
 	}
 	
